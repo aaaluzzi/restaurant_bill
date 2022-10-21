@@ -1,13 +1,34 @@
-//structure for Item with name and price
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
-//table for items defined in the assignment
+struct Item {
+    char* name;
+    double price;
+};
 
-/*main method(use parameters for command line arguments)
-    //item = random item from table
-    //print item name and price
-    //store tax
-    //print tax
-    //store tip
-    //print tip
-    //print total
-*/
+const struct Item ITEM_TABLE[] = {
+    {"Salad", 9.95},
+    {"Soup", 4.55},
+    {"Sandwich", 13.25},
+    {"Pizza", 22.35},
+};
+
+int main(int argc, char* argv[]) {
+    if (argc != 3) {
+        puts("Please provide tax and tip percentages as arguments.");
+        return 1;
+    }
+    srand(time(NULL));
+
+    struct Item item = ITEM_TABLE[rand() % 4];
+
+    printf("%s: $%.2f\n", item.name, item.price);
+    double tax = atof(argv[1]) / 100.0 * item.price;
+    printf("Tax: $%.2f\n", tax);
+    double tip = atof(argv[2]) / 100.0 * (item.price + tax);
+    printf("Tip: $%.2f\n", tip);
+    printf("----------\nTotal: $%.2f\n", item.price + tax + tip);
+
+    return 0;
+}
